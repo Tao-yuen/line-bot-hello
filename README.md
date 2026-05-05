@@ -79,3 +79,5 @@ https://your-app.zeabur.app/webhook
 
 - `/webhook` 只會對 `message` 類型且內容是 `text` 的事件回覆。
 - 若要讓 LINE 正常回傳訊息，請確認 channel access token 與 channel secret 正確無誤。
+- 如果 Zeabur 上只看到服務啟動，但 LINE 還不能回覆，先確認環境變數 `LINE_CHANNEL_ACCESS_TOKEN` 和 `LINE_CHANNEL_SECRET` 都已經填好。
+- 可先打開 `/health` 或 `/` 來確認服務本身已經成功啟動。
