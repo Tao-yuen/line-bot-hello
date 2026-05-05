@@ -1,0 +1,14 @@
+{
+  "name": "line-bot-hello",
+  "version": "1.0.0",
+  "description": "A LINE Messaging API webhook project deployable to Zeabur",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@line/bot-sdk": "^9.6.0",
+    "dotenv": "^17.4.2",
+    "express": "^4.21.2"
+  }
+}
