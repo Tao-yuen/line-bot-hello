@@ -4,10 +4,15 @@
   "description": "A LINE Messaging API webhook project deployable to Zeabur",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "db:init": "node scripts/db-maintenance.js init",
+    "db:seed": "node scripts/db-maintenance.js seed",
+    "db:setup": "node scripts/db-maintenance.js setup",
+    "test:webhook:no-results": "node scripts/test-webhook-no-results.js"
   },
   "dependencies": {
     "@line/bot-sdk": "^9.6.0",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "pg": "^8.20.0"
   }
 }

@@ -3,6 +3,9 @@ const path = require("path");
 const express = require("express");
 const line = require("@line/bot-sdk");
 
+const { hasDatabaseConfig } = require("./db");
+const { createReplySender, createTextEventHandler } = require("./webhookHandler");
+
 const app = express();
 
 function loadEnvFile(envPath) {
@@ -71,6 +74,7 @@ app.get("/", (req, res) => {
   res.status(200).json({
     status: "ok",
     lineConfigured: hasLineCredentials,
+    databaseConfigured: hasDatabaseConfig(),
   });
 });
 
@@ -78,7 +82,13 @@ app.get("/health", (req, res) => {
   res.status(200).json({
     status: "ok",
     lineConfigured: hasLineCredentials,
+    databaseConfigured: hasDatabaseConfig(),
   });
+});
+
+const replyTextMessage = createReplySender(client);
+const handleTextEvent = createTextEventHandler({
+  reply: replyTextMessage,
 });
 
 app.post("/webhook", webhookMiddleware, async (req, res) => {
@@ -91,32 +101,24 @@ app.post("/webhook", webhookMiddleware, async (req, res) => {
   }
 
   try {
-    await Promise.all(
-      req.body.events.map((event) => {
-        if (event.type !== "message") {
-          return Promise.resolve(null);
-        }
+    const events = Array.isArray(req.body?.events) ? req.body.events : [];
 
-        if (event.message.type !== "text") {
-          return Promise.resolve(null);
-        }
+    for (const event of events) {
+      if (event.type !== "message") {
+        continue;
+      }
 
-        return client.replyMessage({
-          replyToken: event.replyToken,
-          messages: [
-            {
-              type: "text",
-              text: "你好！",
-            },
-          ],
-        });
-      })
-    );
+      if (!event.message || event.message.type !== "text") {
+        continue;
+      }
+
+      await handleTextEvent(event);
+    }
 
     res.status(200).json({ status: "ok" });
   } catch (error) {
     console.error("Webhook error:", error);
-    res.status(500).json({ status: "error" });
+    res.status(200).json({ status: "ok" });
   }
 });
 
