@@ -9,14 +9,6 @@ function readSqlFile(filename) {
   return fs.readFileSync(path.join(__dirname, "..", "sql", filename), "utf8");
 }
 
-async function runSqlFile(filename) {
-  const sql = readSqlFile(filename);
-  const pool = createPool();
-
-  await pool.query(sql);
-  console.log(`Completed ${filename}`);
-}
-
 async function main() {
   const command = process.argv[2];
 
