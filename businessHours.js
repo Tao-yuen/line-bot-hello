@@ -1,23 +1,51 @@
-const BUSINESS_HOURS = {
-  maintenance: {
-    label: "保養廠",
-    text: "保養廠營業時間：週一至週六 09:00-18:00",
-  },
-  carWash: {
-    label: "洗車廠",
-    text: "洗車廠營業時間：週一至週日 08:00-19:00",
-  },
-  inspection: {
-    label: "驗車廠",
-    text: "驗車廠營業時間：週一至週五 08:30-17:30",
-  },
-};
+const { createPool } = require("./db");
 
-function findBusinessHoursByLabel(label) {
-  return Object.values(BUSINESS_HOURS).find((item) => item.label === label) || null;
+const DEFAULT_BUSINESS_HOUR_LABELS = ["保養廠", "洗車廠", "驗車廠"];
+
+async function listActiveBusinessHours() {
+  const pool = createPool();
+  const result = await pool.query(
+    `
+    SELECT
+      service_key,
+      label,
+      hours_text,
+      sort_order
+    FROM business_hours
+    WHERE is_active = true
+    ORDER BY sort_order ASC, id ASC
+    `
+  );
+
+  return result.rows;
+}
+
+async function findBusinessHoursByLabel(label) {
+  if (!label) {
+    return null;
+  }
+
+  const pool = createPool();
+  const result = await pool.query(
+    `
+    SELECT
+      service_key,
+      label,
+      hours_text,
+      sort_order
+    FROM business_hours
+    WHERE is_active = true
+      AND label = $1
+    LIMIT 1
+    `,
+    [label]
+  );
+
+  return result.rows[0] || null;
 }
 
 module.exports = {
-  BUSINESS_HOURS,
+  DEFAULT_BUSINESS_HOUR_LABELS,
   findBusinessHoursByLabel,
+  listActiveBusinessHours,
 };

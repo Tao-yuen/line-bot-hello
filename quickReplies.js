@@ -1,6 +1,7 @@
 const MAIN_MENU_LABEL = "主選單";
 const BUSINESS_HOURS_LABEL = "營業時間";
 const TIRE_SEARCH_LABEL = "輪胎規格查詢";
+const DEFAULT_BUSINESS_HOUR_LABELS = ["保養廠", "洗車廠", "驗車廠"];
 
 function buildQuickReplyItems(labels) {
   return labels.map((label) => ({
@@ -32,11 +33,9 @@ function buildMainMenuMessage(text = "請選擇服務項目") {
   return buildTextMessage(text, [BUSINESS_HOURS_LABEL, TIRE_SEARCH_LABEL]);
 }
 
-function buildBusinessHoursMenuMessage() {
+function buildBusinessHoursMenuMessage(labels = DEFAULT_BUSINESS_HOUR_LABELS) {
   return buildTextMessage("請選擇要查詢的營業時間", [
-    "保養廠",
-    "洗車廠",
-    "驗車廠",
+    ...labels,
     MAIN_MENU_LABEL,
   ]);
 }

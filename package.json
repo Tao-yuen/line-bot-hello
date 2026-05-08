@@ -8,6 +8,7 @@
     "db:init": "node scripts/db-maintenance.js init",
     "db:seed": "node scripts/db-maintenance.js seed",
     "db:setup": "node scripts/db-maintenance.js setup",
+    "db:sync:business-hours": "node scripts/sync-business-hours-from-sheets.js",
     "db:sync:sheets": "node scripts/sync-tires-from-sheets.js",
     "test:webhook:quick-replies": "node scripts/test-webhook-quick-replies.js",
     "test:webhook:no-results": "node scripts/test-webhook-no-results.js"

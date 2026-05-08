@@ -43,6 +43,7 @@ PORT=3000
 DATABASE_URL=postgresql://user:password@host:5432/database
 DATABASE_SSL=false
 GOOGLE_SHEETS_CSV_URL=https://docs.google.com/spreadsheets/d/your-spreadsheet-id/export?format=csv&gid=0
+GOOGLE_SHEETS_BUSINESS_HOURS_CSV_URL=https://docs.google.com/spreadsheets/d/your-spreadsheet-id/export?format=csv&gid=123456789
 SYNC_DEACTIVATE_MISSING=false
 ```
 
@@ -54,6 +55,7 @@ SYNC_DEACTIVATE_MISSING=false
 - `DATABASE_URL`：PostgreSQL 連線字串
 - `DATABASE_SSL`：如果資料庫需要 SSL，設定為 `true`
 - `GOOGLE_SHEETS_CSV_URL`：Google Sheets 匯出的 CSV 連結
+- `GOOGLE_SHEETS_BUSINESS_HOURS_CSV_URL`：營業時間 Google Sheets 匯出的 CSV 連結
 - `SYNC_DEACTIVATE_MISSING`：若為 `true`，試算表中不存在的輪胎會在資料庫中設成 `inactive`
 
 專案會優先讀取根目錄的 `.env`，也會使用系統環境變數。
@@ -95,6 +97,12 @@ npm run db:setup
 
 ```bash
 npm run db:sync:sheets
+```
+
+從 Google Sheets 同步營業時間資料：
+
+```bash
+npm run db:sync:business-hours
 ```
 
 先檢查資料格式但不寫入資料庫：
@@ -289,7 +297,7 @@ npm run db:sync:sheets
 - 使用者點 `輪胎規格查詢`，系統會回覆 `請輸入輪胎規格，例如：205/55R16 或 20555R16`
 - 使用者點 `保養廠`、`洗車廠`、`驗車廠`，系統會回覆對應營業時間
 
-目前營業時間資料先寫在 [businessHours.js](/Users/yangyuen/Documents/line-bot-hello/businessHours.js)，如果之後想交給後台維護，可以再改成從 Google Sheets 或 PostgreSQL 讀取。
+目前營業時間資料是從 PostgreSQL 的 `business_hours` 資料表讀取，[businessHours.js](/Users/yangyuen/Documents/line-bot-hello/businessHours.js) 只負責查詢。若要維護內容，建議使用 Google Sheets 並搭配 `npm run db:sync:business-hours` 同步。
 
 ## LINE 環境變數設定
 

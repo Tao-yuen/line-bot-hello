@@ -38,3 +38,20 @@ ON tires(size_standard);
 
 CREATE INDEX IF NOT EXISTS idx_tires_active_size
 ON tires(is_active, size_standard);
+
+CREATE TABLE IF NOT EXISTS business_hours (
+  id SERIAL PRIMARY KEY,
+  service_key VARCHAR(50) NOT NULL,
+  label VARCHAR(50) NOT NULL,
+  hours_text TEXT NOT NULL,
+  sort_order INTEGER DEFAULT 0,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_business_hours_service_key
+ON business_hours(service_key);
+
+CREATE INDEX IF NOT EXISTS idx_business_hours_active_order
+ON business_hours(is_active, sort_order);
