@@ -13,6 +13,7 @@
 - Node.js + Express
 - `@line/bot-sdk`
 - LINE Webhook 驗證
+- LINE Quick Reply 快速選單
 - 輪胎規格正規化
 - PostgreSQL 輪胎查詢
 - LINE Flex Message Carousel 回傳
@@ -106,6 +107,12 @@ npm run db:sync:sheets -- --dry-run
 
 ```bash
 npm run test:webhook:no-results
+```
+
+驗證 Quick Reply 選單流程：
+
+```bash
+npm run test:webhook:quick-replies
 ```
 
 這個測試會模擬一筆資料庫沒有輪胎資料的 webhook 請求，確認程式會穩定回應，並且 log 會清楚標示查無資料。
@@ -263,6 +270,26 @@ npm run db:sync:sheets
 - `size_standard` 建議統一用像 `205/55R16` 的格式
 - `SYNC_DEACTIVATE_MISSING=false` 時，試算表少掉的資料不會自動下架，比較適合一開始使用
 - 如果未來要改成「試算表沒出現就自動下架」，再把 `SYNC_DEACTIVATE_MISSING` 改成 `true`
+
+## Quick Reply 功能
+
+目前專案已提供兩層式 Quick Reply 選單：
+
+1. 主選單：
+   - `營業時間`
+   - `輪胎規格查詢`
+2. 營業時間子選單：
+   - `保養廠`
+   - `洗車廠`
+   - `驗車廠`
+
+互動方式：
+
+- 使用者點 `營業時間`，系統會顯示營業時間分類選單
+- 使用者點 `輪胎規格查詢`，系統會回覆 `請輸入輪胎規格，例如：205/55R16 或 20555R16`
+- 使用者點 `保養廠`、`洗車廠`、`驗車廠`，系統會回覆對應營業時間
+
+目前營業時間資料先寫在 [businessHours.js](/Users/yangyuen/Documents/line-bot-hello/businessHours.js)，如果之後想交給後台維護，可以再改成從 Google Sheets 或 PostgreSQL 讀取。
 
 ## LINE 環境變數設定
 

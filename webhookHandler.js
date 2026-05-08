@@ -1,4 +1,14 @@
+const { findBusinessHoursByLabel } = require("./businessHours");
 const { buildTireFlexMessage } = require("./flexMessages");
+const {
+  BUSINESS_HOURS_LABEL,
+  MAIN_MENU_LABEL,
+  TIRE_SEARCH_LABEL,
+  buildBusinessHoursMenuMessage,
+  buildMainMenuMessage,
+  buildTextMessage,
+  buildTireSearchPromptMessage,
+} = require("./quickReplies");
 const { findRandomTiresBySize } = require("./tireService");
 const { normalizeTireSize } = require("./tireSizeNormalizer");
 
@@ -22,13 +32,39 @@ function createTextEventHandler({
   logger = console,
 } = {}) {
   return async function handleTextEvent(event) {
-    const normalizedSize = normalize(event?.message?.text);
+    const inputText = String(event?.message?.text || "").trim();
+    const businessHours = findBusinessHoursByLabel(inputText);
+
+    if (inputText === MAIN_MENU_LABEL) {
+      await reply(event.replyToken, buildMainMenuMessage());
+      return;
+    }
+
+    if (inputText === BUSINESS_HOURS_LABEL) {
+      await reply(event.replyToken, buildBusinessHoursMenuMessage());
+      return;
+    }
+
+    if (inputText === TIRE_SEARCH_LABEL) {
+      await reply(event.replyToken, buildTireSearchPromptMessage());
+      return;
+    }
+
+    if (businessHours) {
+      await reply(
+        event.replyToken,
+        buildTextMessage(businessHours.text, [MAIN_MENU_LABEL, TIRE_SEARCH_LABEL])
+      );
+      return;
+    }
+
+    const normalizedSize = normalize(inputText);
 
     if (!normalizedSize) {
-      await reply(event.replyToken, {
-        type: "text",
-        text: "請輸入輪胎規格，例如：205/55R16 或 20555R16",
-      });
+      await reply(
+        event.replyToken,
+        buildMainMenuMessage("請選擇服務項目，或直接輸入輪胎規格")
+      );
       return;
     }
 
