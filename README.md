@@ -105,6 +105,12 @@ npm run db:sync:sheets
 npm run db:sync:business-hours
 ```
 
+一次同步輪胎資料與營業時間：
+
+```bash
+npm run db:sync:all
+```
+
 先檢查資料格式但不寫入資料庫：
 
 ```bash
@@ -278,6 +284,37 @@ npm run db:sync:sheets
 - `size_standard` 建議統一用像 `205/55R16` 的格式
 - `SYNC_DEACTIVATE_MISSING=false` 時，試算表少掉的資料不會自動下架，比較適合一開始使用
 - 如果未來要改成「試算表沒出現就自動下架」，再把 `SYNC_DEACTIVATE_MISSING` 改成 `true`
+
+### Google Sheets 日常更新 SOP
+
+如果你同一天同時更新了輪胎資料和營業時間，建議照這個順序操作：
+
+1. 在輪胎資料 Google Sheets 更新輪胎規格、價格、圖片或上下架狀態
+2. 在營業時間 Google Sheets 更新 `hours_text`、排序或上下架狀態
+3. 先分別確認兩張表的欄位名稱沒有被改掉
+4. 如需分開驗證，可先執行：
+
+```bash
+npm run db:sync:sheets -- --dry-run
+npm run db:sync:business-hours -- --dry-run
+```
+
+5. 如果兩邊都沒報錯，直接執行總同步：
+
+```bash
+npm run db:sync:all
+```
+
+6. 同步完成後，到 LINE 測試：
+   - `205/55R16`
+   - `營業時間`
+   - `保養廠`
+
+### 同步結果判讀
+
+- `db:sync:sheets` 會顯示輪胎資料的 `insertedCount`、`updatedCount`、`deactivatedCount`
+- `db:sync:business-hours` 會顯示營業時間資料的 `insertedCount`、`updatedCount`
+- `db:sync:all` 會依序跑完兩個同步腳本，任何一個失敗都會停止並顯示錯誤
 
 ## Quick Reply 功能
 
