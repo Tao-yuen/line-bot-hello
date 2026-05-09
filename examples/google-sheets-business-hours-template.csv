@@ -1,0 +1,4 @@
+service_key,label,hours_text,sort_order,is_active
+maintenance,保養廠,保養廠營業時間：週一至週六 09:00-18:00,10,true
+car_wash,洗車廠,洗車廠營業時間：週一至週日 08:00-19:00,20,true
+inspection,驗車廠,驗車廠營業時間：週一至週五 08:30-17:30,30,true

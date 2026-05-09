@@ -1,0 +1,11 @@
+tire_code,brand,pattern,size_standard,load_index,speed_rating,price,image_url,is_active
+MICHELIN-PRIMACY-4-205-55R16,MICHELIN,Primacy 4,205/55R16,91,V,3600,https://placehold.co/1200x780/png?text=Michelin+Primacy+4,true
+BRIDGESTONE-TURANZA-T005A-205-55R16,BRIDGESTONE,Turanza T005A,205/55R16,91,V,3400,https://placehold.co/1200x780/png?text=Bridgestone+T005A,true
+MAXXIS-HP5-205-55R16,MAXXIS,HP5,205/55R16,91,V,2600,https://placehold.co/1200x780/png?text=Maxxis+HP5,true
+CONTINENTAL-ULTRACONTACT-UC7-205-55R16,CONTINENTAL,UltraContact UC7,205/55R16,91,V,3300,https://placehold.co/1200x780/png?text=Continental+UC7,true
+YOKOHAMA-AE51-205-55R16,YOKOHAMA,AE51,205/55R16,91,V,3000,https://placehold.co/1200x780/png?text=Yokohama+AE51,true
+GOODYEAR-EFFICIENTGRIP-PERFORMANCE-2-215-45R17,GOODYEAR,EfficientGrip Performance 2,215/45R17,91,W,4200,https://placehold.co/1200x780/png?text=Goodyear+EfficientGrip+Performance+2,true
+PIRELLI-POWERGY-225-45R17,PIRELLI,Powergy,225/45R17,94,W,3900,https://placehold.co/1200x780/png?text=Pirelli+Powergy,true
+HANKOOK-VENTUS-PRIME4-225-50R17,HANKOOK,Ventus Prime4,225/50R17,98,W,3200,https://placehold.co/1200x780/png?text=Hankook+Ventus+Prime4,true
+DUNLOP-VEURO-VE304-215-60R16,DUNLOP,VEURO VE304,215/60R16,95,V,3500,https://placehold.co/1200x780/png?text=Dunlop+VEURO+VE304,true
+FALKEN-ZIEX-ZE310-ECORUN-195-65R15,FALKEN,ZIEX ZE310 ECORUN,195/65R15,91,H,2400,https://placehold.co/1200x780/png?text=Falken+ZIEX+ZE310+ECORUN,false
